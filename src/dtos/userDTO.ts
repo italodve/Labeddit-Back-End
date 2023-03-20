@@ -22,9 +22,22 @@ export interface  LoginOutputDTO  {
 export interface GetPostsInputDTO {
     token: string | undefined
 }
+export interface GetPostsInputDTO2 {
+    id: string,
+    token: string | undefined
+}
+export interface GetByIdOutputDTO {
+    post: PostModel
+
+}
+export interface GetByIdOutputDTO2 {
+    reply: ReplyModel
+
+}
 
 export type GetPostsOutputDTO = PostModel[]
 export type GetReplysOutputDTO = ReplyModel[]
+
 
 export interface CreatePostInputDTO {
 token: string | undefined,

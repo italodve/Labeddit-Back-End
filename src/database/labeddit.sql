@@ -89,7 +89,7 @@ WHERE id = "p003";
 
 CREATE TABLE replys (
 id TEXT PRIMARY KEY UNIQUE NOT NULL,
-post_id TEXT,
+post_id TEXT NOT NULL,
 creator_id TEXT NOT NULL,
 content TEXT NOT NULL,
   likes INTEGER DEFAULT (0) NOT NULL,

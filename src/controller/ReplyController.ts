@@ -1,6 +1,6 @@
 import { Request, Response } from "express"
 import { ReplyBusiness } from "../business/ReplyBusiness"
-import { CreatePostInputDTO,CreateReplyInputDTO, DeletePostInputDTO, EditPostInputDTO, GetPostsInputDTO, LikeOrDislikePostInputDTO, ReplyPostInputDTO } from "../dtos/userDTO"
+import { CreatePostInputDTO,CreateReplyInputDTO, DeletePostInputDTO, EditPostInputDTO, GetPostsInputDTO, GetPostsInputDTO2, LikeOrDislikePostInputDTO, ReplyPostInputDTO } from "../dtos/userDTO"
 import { BaseError } from "../errors/BaseError"
 
 export class ReplyController {
@@ -26,13 +26,40 @@ export class ReplyController {
             }
         }
     }
+    public getReplysbyId = async(req:Request, res:Response)=>{
+        try {
+
+            const input: GetPostsInputDTO2 = {
+                id: req.params.id,
+                token: req.headers.authorization 
+            }  
+            
+
+            const output = await this.replyBusiness.getReplysById(input)
+
+            res.status(201).send(output)   
+                      
+        } catch (error) {
+            console.log(error)
+        
+            if (req.statusCode === 200) {
+                res.status(500)
+            }
+    
+            if (error instanceof Error) {
+                res.send(error.message)
+            } else {
+                res.send("Erro inesperado")
+            }  
+        }
+    }
 
     public createReply = async (req: Request, res: Response) => {
         try {
             const input: CreateReplyInputDTO = {
                 token: req.headers.authorization,
                 content: req.body.content,
-               postId: req.body.id
+               postId: req.params.id
             }
 
             await this.replyBusiness.createReply(input)

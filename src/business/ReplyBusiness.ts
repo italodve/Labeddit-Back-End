@@ -1,13 +1,11 @@
 import { ReplyDatabase } from "../database/ReplyDatabase";
-import { CreatePostInputDTO, DeletePostInputDTO, EditPostInputDTO, GetPostsInputDTO, GetPostsOutputDTO, LikeOrDislikePostInputDTO, GetReplysOutputDTO, CreateReplyInputDTO } from "../dtos/userDTO";
+import { CreatePostInputDTO, DeletePostInputDTO, EditPostInputDTO, GetPostsInputDTO, GetPostsOutputDTO, LikeOrDislikePostInputDTO, GetReplysOutputDTO, CreateReplyInputDTO, GetPostsInputDTO2, GetByIdOutputDTO, GetByIdOutputDTO2 } from "../dtos/userDTO";
 import { BadRequestError } from "../errors/BadRequestError";
 import { NotFoundError } from "../errors/NotFoundError";
 import { Reply } from "../models/Reply";
 import { IdGenerator } from "../services/IdGenerator";
 import { TokenManager } from "../services/TokenManager";
 import { ReplyLikeDislikeDB, ReplyECreatorDB, REPLY_LIKE, USER_ROLES, TokenPayloadReplys } from "../type";
-import { PostDatabase } from "../database/PostDatabase";
-import { Post } from "../models/Post";
 
 export class ReplyBusiness {
     constructor(
@@ -41,14 +39,14 @@ export class ReplyBusiness {
             (replyECreatorDB) => {
                 const reply = new Reply(
                     replyECreatorDB.id,
-                    replyECreatorDB.post_Id,
+                    replyECreatorDB.post_id,
                     replyECreatorDB.content,
                     replyECreatorDB.likes,
                     replyECreatorDB.dislikes,
                     replyECreatorDB.created_at,
                     replyECreatorDB.updated_at,
                   replyECreatorDB.creator_id,
-                    replyECreatorDB.creator_name,
+                    replyECreatorDB.creator_name
                     
                 )
 
@@ -56,9 +54,9 @@ export class ReplyBusiness {
             }
         )
 
-        const output: GetReplysOutputDTO = replys
+        
 
-        return output
+        return replys
     }
 
     public createReply = async (
@@ -216,7 +214,7 @@ export class ReplyBusiness {
         }
 
         const replyECreatorDB = await this.replyDatabase
-            .findPostECreatorById(idToLikeOrDislike)
+            .findReplyECreatorById(idToLikeOrDislike)
 
         if (!replyECreatorDB) {
             throw new NotFoundError("'id' não encontrado")
@@ -233,7 +231,7 @@ export class ReplyBusiness {
 
         const reply = new Reply(
             replyECreatorDB.id,
-            replyECreatorDB.post_Id,
+            replyECreatorDB.post_id,
             replyECreatorDB.content,
             replyECreatorDB.likes,
             replyECreatorDB.dislikes,
@@ -277,4 +275,43 @@ export class ReplyBusiness {
     
         await this.replyDatabase.update(idToLikeOrDislike, updatedReplyDB)
     }
+    public getReplysById = async (input: GetPostsInputDTO2): Promise<GetReplysOutputDTO> => {
+        const { id, token } = input
+        
+        if (typeof token !== "string") {
+            throw new BadRequestError("requer token")
+        }
+        const payload = this.tokenManager.getPayload(token)
+
+        if (!payload) {
+            throw new BadRequestError("token inválido")
+        }
+       
+        const replyECreatorsDB: ReplyECreatorDB[] =
+            await this.replyDatabase
+                .getReplysECreatorsId(id)
+
+        const replys = replyECreatorsDB.map(
+            (replyECreatorDB) => {
+                const reply = new Reply(
+                    replyECreatorDB.id,
+                    replyECreatorDB.post_id,
+                    replyECreatorDB.content,
+                    replyECreatorDB.likes,
+                    replyECreatorDB.dislikes,
+                    replyECreatorDB.created_at,
+                    replyECreatorDB.updated_at,
+                  replyECreatorDB.creator_id,
+                    replyECreatorDB.creator_name
+                    
+                )
+
+                return reply.toBusinessModel()
+            }
+        )
+
+        const output: GetReplysOutputDTO = replys
+
+        return output
+}
 }
