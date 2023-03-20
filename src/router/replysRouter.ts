@@ -17,7 +17,8 @@ const replyController = new ReplyController(
 )
 
 replysRouter.get("/", replyController.getReply)
-replysRouter.post("/", replyController.createReply)
+replysRouter.get("/:id", replyController.getReplysbyId)
+replysRouter.post("/:id", replyController.createReply)
 replysRouter.put("/:id", replyController.editReply)
 replysRouter.delete("/:id", replyController.deleteReply)
 replysRouter.put("/:id/like", replyController.likeOrDislikeReply)

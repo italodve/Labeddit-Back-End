@@ -24,7 +24,7 @@ private dislikes: number,
         return this.postId
     }
     public setPostId(value:string): void {
-         this.postId= value 
+         this.postId = value 
     }
  
     
@@ -95,7 +95,7 @@ public setCreatorName(value:string): void {
 public toDBModel(): ReplyDB {
     return {
     id: this.id,
-    post_Id: this.postId,
+    post_id: this.postId,
     creator_id: this.creatorId,
     content :this.content,
     likes: this.likes,
@@ -107,7 +107,7 @@ dislikes: this.dislikes,
     public toBusinessModel(): ReplyModel {
         return {
     id: this.id,
-    postId: this.postId,
+    post_id: this.postId,
     content: this.content,
     likes: this.likes,
     dislikes: this.dislikes,

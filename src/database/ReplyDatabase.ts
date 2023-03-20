@@ -12,7 +12,7 @@ export class ReplyDatabase extends BaseDatabase {
             .connection(ReplyDatabase.TABLE_REPLYS)
             .select(
                 "replys.id",
-                "posts.id",
+                "replys.post_id",
                 "replys.creator_id",
                 "replys.content",
                 "replys.likes",
@@ -21,9 +21,35 @@ export class ReplyDatabase extends BaseDatabase {
                 "replys.updated_at",
                 "users.name AS creator_name",
                 
+                
+            )
+            
+            .join("users", "replys.creator_id", "=", "users.id")
+            .join("posts", "replys.post_id", "=", "posts.id")
+            
+            
+        
+        return result
+    }
+    public getReplysECreatorsId = async (replyId: string): Promise<ReplyECreatorDB[]> => {
+        const result: ReplyECreatorDB[] = await BaseDatabase
+            .connection(ReplyDatabase.TABLE_REPLYS)
+            .select(
+                "replys.id",
+                "replys.post_id",
+                "replys.creator_id",
+                "replys.content",
+                "replys.likes",
+                "replys.dislikes",
+                "replys.created_at",
+                "replys.updated_at",
+                "users.name AS creator_name",
+                
+                
             )
             .join("users", "replys.creator_id", "=", "users.id")
-            .join("posts","replys.post_id", "=", "posts.id")
+            .join("posts", "replys.post_id", "=", "posts.id")
+            .where("post_id", replyId)
             
         
         return result
@@ -64,13 +90,14 @@ export class ReplyDatabase extends BaseDatabase {
             .where({ id })
     }
 
-    public findPostECreatorById = async (
+    public findReplyECreatorById = async (
         replyId: string
-    ): Promise<ReplyECreatorDB | undefined> => {
+    ): Promise<ReplyECreatorDB > => {
         const result: ReplyECreatorDB[] = await BaseDatabase
             .connection(ReplyDatabase.TABLE_REPLYS)
             .select(
                 "replys.id",
+                "replys.post_id",
                 "replys.creator_id",
                 "replys.content",
                 "replys.likes",

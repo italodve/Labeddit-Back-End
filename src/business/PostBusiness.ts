@@ -1,5 +1,5 @@
 import { PostDatabase } from "../database/PostDatabase";
-import { CreatePostInputDTO, DeletePostInputDTO, EditPostInputDTO, GetPostsInputDTO, GetPostsOutputDTO, LikeOrDislikePostInputDTO, ReplyPostInputDTO } from "../dtos/userDTO";
+import { CreatePostInputDTO, DeletePostInputDTO, EditPostInputDTO, GetByIdOutputDTO, GetPostsInputDTO, GetPostsInputDTO2, GetPostsOutputDTO, LikeOrDislikePostInputDTO, ReplyPostInputDTO } from "../dtos/userDTO";
 import { BadRequestError } from "../errors/BadRequestError";
 import { NotFoundError } from "../errors/NotFoundError";
 import { Post } from "../models/Post";
@@ -56,6 +56,7 @@ export class PostBusiness {
 
         return output
     }
+   
 
     public createPost = async (
         input: CreatePostInputDTO
@@ -314,4 +315,40 @@ export class PostBusiness {
     
         await this.postDatabase.update(postIdToReply, updatedPostDB)
     }
+    public getPostsById = async (input: GetPostsInputDTO2): Promise<GetByIdOutputDTO> => {
+        const { id, token } = input
+        
+        if (typeof token !== "string") {
+            throw new BadRequestError("requer token")
+        }
+        const payload = this.tokenManager.getPayload(token)
+
+        if (!payload) {
+            throw new BadRequestError("token inválido")
+        }
+        const postECreatorDB = await this.postDatabase
+        .findPostECreatorById(id)
+        if (!postECreatorDB) {
+            throw new NotFoundError("'id' não existe")
+        }
+
+        const post = new Post(
+            postECreatorDB.id ,
+            postECreatorDB.content,
+            postECreatorDB.likes ,
+            postECreatorDB.dislikes ,
+            postECreatorDB.replys ,
+            postECreatorDB.created_at ,
+            postECreatorDB.updated_at ,
+            postECreatorDB.creator_id ,
+            postECreatorDB.creator_name
+        )
+        
+        const output: GetByIdOutputDTO = {
+            post: post.toBusinessModel()
+        }
+        return output
+    }
 }
+
+

@@ -36,7 +36,7 @@ export interface PostDB {
       likes: number,
       dislikes: number,
       created_at: string,
-      updated_at: string,
+      updated_at: string
 
 }
 export interface PostECreatorDB extends PostDB{
@@ -67,7 +67,7 @@ export interface UserDB {
     email: string ,
     password: string ,
     role: USER_ROLES,
-    created_at: string,
+    created_at: string
 }
 
 
@@ -81,18 +81,18 @@ createdAt: string
 }
 export interface ReplyDB {
     id: string,
-    post_Id:string
+    post_id: string,
     creator_id: string,
     content: string,
       likes: number,
       dislikes: number,
       created_at: string,
-      updated_at: string,
+      updated_at: string
 }
 
 export interface ReplyModel {
     id: string,
-    postId:string
+    post_id: string,
     content: string,
     likes: number,
     dislikes: number,
@@ -105,7 +105,7 @@ export interface ReplyModel {
 }
 
 export interface ReplyECreatorDB extends ReplyDB{
-    creator_name: string,
+    creator_name: string
     
 }
 
@@ -124,12 +124,11 @@ export enum POST_REPLYED {
 export interface countDB {
     userId: string,
   postId: string,
-  reply: string,
+  reply: string
 }
 export interface PostRDB {
     user_id: string,
     post_id: string,
-    reply: number,
-    
+    reply: number
 
 }

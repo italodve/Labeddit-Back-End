@@ -1,10 +1,12 @@
 
-import { LikeDislikeDB,PostDB, PostECreatorDB, PostRDB, POST_LIKE, POST_REPLYED } from "../type";
+import { LikeDislikeDB,PostDB, PostECreatorDB, PostRDB, POST_LIKE, POST_REPLYED, ReplyDB } from "../type";
 import { BaseDatabase } from "./BaseDatabase";
 
 export class PostDatabase extends BaseDatabase {
     public static TABLE_POSTS = "posts"
     public static TABLE_LIKES_DISLIKES = "likes_dislikes"
+    public static TABLE_REPLYS = "replys"
+
 
     public getPostsECreators = async (): Promise<PostECreatorDB[]> => {
         const result: PostECreatorDB[] = await BaseDatabase
@@ -45,6 +47,15 @@ export class PostDatabase extends BaseDatabase {
         
         return result[0]
     }
+    public getPostById = async (id: string):Promise<PostDB | undefined>=>{
+        const [postDB]:PostDB[] | undefined = await BaseDatabase
+        .connection(PostDatabase.TABLE_POSTS)
+        .select()
+        .where({id})
+
+        return postDB
+    }
+
 
     public update = async (
         id: string,
