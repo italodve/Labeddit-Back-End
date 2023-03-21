@@ -1,7 +1,7 @@
 # Projeto Labeddit Back-End
 # link do front https://github.com/italodve/labeddit-front-end
 
-# Conteúdos abordados
+# Tecnologias
 - NodeJS
 - Typescript
 - Express
@@ -16,11 +16,9 @@
 - Postman
 
 # Banco de dados
-![projeto-labook (2)](https://user-images.githubusercontent.com/29845719/216036534-2b3dfb48-7782-411a-bffd-36245b78594e.png)
 
-https://dbdiagram.io/d/63d16443296d97641d7c1ae1
+https://dbdiagram.io/d/640b1843296d97641d86f727
 
-# Lista de requisitos
 - Endpoints
     - [ ]  signup
     - [ ]  login
@@ -29,6 +27,12 @@ https://dbdiagram.io/d/63d16443296d97641d7c1ae1
     - [ ]  edit post
     - [ ]  delete post
     - [ ]  like / dislike post
+    - [ ]  Add reply
+    - [ ]   get replys
+    - [ ]  create reply
+    - [ ]  edit reply
+    - [ ]  delete reply
+    - [ ]  like / dislike reply
 
 - Autenticação e autorização
     - [ ]  identificação UUID
@@ -187,15 +191,16 @@ Caso dê um dislike em um post que tenha dado like, o dislike sobrescreve o like
 // response
 // status 200 OK
 ```
+###  add reply
+```typescript
+// request POST /posts
+// headers.authorization = "token jwt"
+// body JSON
+{
+    "content": "Partiu happy hour!"
+}
 
-### Para entender a tabela likes_dislikes
-- no SQLite, lógicas booleanas devem ser controladas via 0 e 1 (INTEGER)
-- quando like valer 1 na tabela é porque a pessoa deu like no post
-    - na requisição like é true
-    
-- quando like valor 0 na tabela é porque a pessoa deu dislike no post
-    - na requisição like é false
-    
-- caso não exista um registro na tabela de relação, é porque a pessoa não deu like nem dislike
-- caso dê like em um post que já tenha dado like, o like é removido (deleta o item da tabela)
-- caso dê dislike em um post que já tenha dado dislike, o dislike é removido (deleta o item da tabela)
+// response
+// status 201 CREATED
+```
+
