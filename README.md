@@ -1,5 +1,5 @@
 # Projeto Labeddit Back-End
-# link do front https://github.com/italodve/labeddit-front-end
+## link do front-end do projeto https://github.com/italodve/labeddit-front-end
 
 # Tecnologias
 - NodeJS
