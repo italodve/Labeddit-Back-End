@@ -1,7 +1,10 @@
 # Projeto Labeddit Back-End
 ## link do front-end do projeto https://github.com/italodve/labeddit-front-end
 
-# Tecnologias
+### Contato
+[![linkedin](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/italo-silva-55244421a/)
+
+# Tecnologias 💻
 - NodeJS
 - Typescript
 - Express
@@ -15,7 +18,7 @@
 - Roteamento
 - Postman
 
-# Banco de dados
+# Banco de dados 🖧
 
 https://dbdiagram.io/d/640b1843296d97641d86f727
 
