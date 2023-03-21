@@ -16,7 +16,7 @@ const replyController = new ReplyController(
     )
 )
 
-replysRouter.get("/", replyController.getReply)
+
 replysRouter.get("/:id", replyController.getReplysbyId)
 replysRouter.post("/:id", replyController.createReply)
 replysRouter.put("/:id", replyController.editReply)

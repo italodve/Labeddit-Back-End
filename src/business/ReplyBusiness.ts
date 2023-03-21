@@ -15,49 +15,7 @@ export class ReplyBusiness {
     ) {}
    
     
-    public getReplys = async (
-        input: GetPostsInputDTO
-    ): Promise<GetReplysOutputDTO> => {
-        const { token, } = input
-
-        if (token === undefined) {
-            throw new BadRequestError("token ausente")
-        }
-
-        const payload = this.tokenManager.getPayload(token)
-
-        if (payload === null) {
-            throw new BadRequestError("token inválido")
-        }
-
-        const replyECreatorsDB: ReplyECreatorDB[] =
-            await this.replyDatabase
-                .getReplysECreators()
-        
-        
-        const replys = replyECreatorsDB.map(
-            (replyECreatorDB) => {
-                const reply = new Reply(
-                    replyECreatorDB.id,
-                    replyECreatorDB.post_id,
-                    replyECreatorDB.content,
-                    replyECreatorDB.likes,
-                    replyECreatorDB.dislikes,
-                    replyECreatorDB.created_at,
-                    replyECreatorDB.updated_at,
-                  replyECreatorDB.creator_id,
-                    replyECreatorDB.creator_name
-                    
-                )
-
-                return reply.toBusinessModel()
-            }
-        )
-
-        
-
-        return replys
-    }
+    
 
     public createReply = async (
         input: CreateReplyInputDTO
@@ -134,7 +92,7 @@ export class ReplyBusiness {
         const creatorId = payload.id
 
         if (replyDB.creator_id !== creatorId) {
-            throw new BadRequestError("somente quem criou o post pode editar")
+            throw new BadRequestError("somente quem criou o reply pode editar")
         }
 
         const creatorName = payload.name
@@ -142,7 +100,7 @@ export class ReplyBusiness {
 
         const reply =  new Reply(
             replyDB.id,
-            postId,
+            replyDB.post_id,
             replyDB.content,
             replyDB.likes,
             replyDB.dislikes,
