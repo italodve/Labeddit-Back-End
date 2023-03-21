@@ -208,7 +208,7 @@ endpoint usado junto com create reply para somar e atulizar a quantidade de repl
 ## Create reply
 Endpoint protegido, requer um token jwt para acessá-lo.
 ```typescript
-// request POST /replys
+// request POST /replys/:id
 // headers.authorization = "token jwt"
 // body JSON
 {
