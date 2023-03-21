@@ -191,9 +191,9 @@ Caso dê um dislike em um post que tenha dado like, o dislike sobrescreve o like
 // response
 // status 200 OK
 ```
-###  add reply
+###  Add reply
 ```typescript
-// request POST /posts
+// request PUT /posts/:id/reply
 // headers.authorization = "token jwt"
 // body JSON
 {
