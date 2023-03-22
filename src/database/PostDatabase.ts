@@ -47,15 +47,7 @@ export class PostDatabase extends BaseDatabase {
         
         return result[0]
     }
-    public getPostById = async (id: string):Promise<PostDB | undefined>=>{
-        const [postDB]:PostDB[] | undefined = await BaseDatabase
-        .connection(PostDatabase.TABLE_POSTS)
-        .select()
-        .where({id})
-
-        return postDB
-    }
-
+    
 
     public update = async (
         id: string,
@@ -121,18 +113,7 @@ export class PostDatabase extends BaseDatabase {
             return null
         }
     }
-    public findReply = async (
-        likeDislikeDBToFind: PostRDB
-    ): Promise< void> => {
-        const [ likeDislikeDB ]: PostRDB[] = await BaseDatabase
-            .connection(PostDatabase.TABLE_POSTS)
-            .select()
-            .where({
-                user_id: likeDislikeDBToFind.user_id,
-                post_id: likeDislikeDBToFind.post_id
-            })
-
-    }
+    
 
     public removeLikeDislike = async (
         likeDislikeDB: LikeDislikeDB
