@@ -1,5 +1,6 @@
 # Projeto Labeddit Back-End
 ## link do front-end do projeto https://github.com/italodve/labeddit-front-end
+## link da documentação postman https://documenter.getpostman.com/view/24460916/2s93RMTuPP
 
 ### Contato
 [![linkedin](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/italo-silva-55244421a/)
