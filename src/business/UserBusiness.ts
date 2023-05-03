@@ -32,6 +32,19 @@ export class UserBusiness {
         if (typeof password !== "string") {
             throw new BadRequestError("'password' deve ser string")
         }
+
+        if (name.length < 3) {
+            throw new BadRequestError("'name' deve possuir no mínimo 3 caracteres")
+          }
+      
+          if (email.length < 3 || !email.includes("@")) {
+            throw new BadRequestError("'email' deve possuir no mínimo 3 caracteres e ter @")
+          }
+      
+          if (password.length < 3) {
+            throw new BadRequestError("'password' deve possuir no mínimo 3 caracteres")
+          }
+          
         const useDB: UserDB | undefined = await this.userDatabase.findByEmail(email)
         if (useDB) {
             throw new NotFoundError("'email' já cadastrado")
