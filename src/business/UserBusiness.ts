@@ -30,8 +30,8 @@ export class UserBusiness {
         if (typeof password !== "string") {
             throw new BadRequestError("'password' deve ser string")
         }
-        const userEmail = await this.userDatabase.findByEmail(email)
-        if (userEmail) {
+        const Email = await this.userDatabase.findByEmail(email)
+        if (typeof Email === email ) {
             throw new NotFoundError("'email' já cadastrado")
         }
         
