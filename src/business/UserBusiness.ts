@@ -27,14 +27,16 @@ export class UserBusiness {
         if (typeof email !== "string") {
             throw new BadRequestError("'email' deve ser string")
         }
-        const useDB: UserDB | undefined = await this.userDatabase.findByEmail(email)
-        if (useDB) {
-            throw new NotFoundError("'email'  cadastrado")
-        }
+     
 
         if (typeof password !== "string") {
             throw new BadRequestError("'password' deve ser string")
         }
+        const useDB: UserDB | undefined = await this.userDatabase.findByEmail(email)
+        if (useDB) {
+            throw new NotFoundError("'email' já cadastrado")
+        }
+
         
         
         const id = this.idGenerator.generate()
