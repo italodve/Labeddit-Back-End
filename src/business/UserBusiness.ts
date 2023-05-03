@@ -30,7 +30,11 @@ export class UserBusiness {
         if (typeof password !== "string") {
             throw new BadRequestError("'password' deve ser string")
         }
-
+        const userEmail = await this.userDatabase.findByEmail(email)
+        if (userEmail) {
+            throw new NotFoundError("'email' já cadastrado")
+        }
+        
         const id = this.idGenerator.generate()
         const hashedPassword = await this.hashManager.hash(password)
         const role = USER_ROLES.NORMAL
