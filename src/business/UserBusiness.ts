@@ -18,6 +18,7 @@ export class UserBusiness {
 
     public signup = async (input: SignupInputDTO): Promise<SignupOutputDTO> => {
         const { name, email, password } = input
+        
 
         if (typeof name !== "string") {
             throw new BadRequestError("'name' deve ser string")
@@ -26,14 +27,15 @@ export class UserBusiness {
         if (typeof email !== "string") {
             throw new BadRequestError("'email' deve ser string")
         }
+        const useDB: UserDB | undefined = await this.userDatabase.findByEmail(email)
+        if (useDB) {
+            throw new NotFoundError("'email'  cadastrado")
+        }
 
         if (typeof password !== "string") {
             throw new BadRequestError("'password' deve ser string")
         }
-        const Email = await this.userDatabase.findByEmail(email)
-        if (typeof Email === email ) {
-            throw new NotFoundError("'email' já cadastrado")
-        }
+        
         
         const id = this.idGenerator.generate()
         const hashedPassword = await this.hashManager.hash(password)
